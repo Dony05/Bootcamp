@@ -1,0 +1,71 @@
+<html>
+<head><title>Jawaban Soal No 7 Test Bootcamp Arkademy</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/datatable-bootstrap.css" rel="stylesheet">
+    </head>
+<body>
+<center><h1>Semoga saya lulus untuk Bootcamp di Arkademy<h1></center>
+<table  class="table table-bordered table-striped table-admin">
+              <thead>
+                <tr>
+                  <th width="20%">Person Id</th>
+                  <th >Name</th>
+                  <th >Person Hobbies</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+<?php
+$server = "localhost";
+$username = "root";
+$password = "";
+$database = "bootcamp";
+
+$koneksi = mysql_connect($server,$username,$password) or die ('Koneksi gagal');
+
+if($koneksi){
+mysql_select_db($database) or die ('Database belum dibuat');	
+}
+
+            $query = "SELECT hobbies.persons_id,persons.name,GROUP_CONCAT(hobbies.name) Persons_hobbies 
+            from persons LEFT  outer join hobbies on(persons.id = hobbies.persons_id) group by hobbies.persons_id"; // Query untuk menampilkan semua data 
+           $result = mysql_query($query);
+           if($result){
+            $posts = array();
+                 if(mysql_num_rows($result))
+                 {
+                        while($post = mysql_fetch_assoc($result)){
+                                $posts[] = $post;
+                        }
+                 }  
+                 $data = json_encode(array('results'=>$posts));
+                                    
+           }
+           
+                if(json_decode($data,true)){
+                    $obj = json_decode($data);
+                    foreach($obj->results as $item){
+                ?>
+                <tr>
+                  <td><?php echo $item->persons_id; ?></td>
+                  <td><?php echo $item->name; ?></td>
+                  <td><?php echo $item->Persons_hobbies; ?></td>
+                  <?php
+                  }
+           }
+       ?>
+</tbody>
+</table> <script>
+function validateForm(username,password){
+    var validUsername = /^[a-z_]{8}$/g;
+    var validPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8}$/g;
+    
+    return (validUsername.test(username) && validPassword.test(password));
+
+}
+
+console.log(validateForm('soetami_','sw1p3^UP')); </script>       
+</body>
+</html>                     
