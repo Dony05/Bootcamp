@@ -1,0 +1,3 @@
+Soal No 6. 
+SELECT hobbies.persons_id,persons.name,GROUP_CONCAT(hobbies.name) Persons_hobbies 
+ from persons LEFT  outer join hobbies on(persons.id = hobbies.persons_id) group by hobbies.persons_id
